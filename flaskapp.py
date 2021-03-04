@@ -3,14 +3,13 @@ from flask import Flask, render_template, session, redirect, url_for, session
 
 
 
-
-
 #Note que cada uma das intenções possui:
 #tag: um nome único;
 #patterns: sequência de frases ditas pelo usuário;
 #responses: respostas possíveis para o chatbot.
 #Feito isso o próximo passo é importar nossas dependências:
 import nltk
+nltk.download('punkt')
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
