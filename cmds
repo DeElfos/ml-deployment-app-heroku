@@ -1,1 +1,4 @@
 pip freeze > requirements.txt
+
+heroku buildpacks:clear --app 'tes444te'
+heroku buildpacks:set heroku/python -a "tes444te"
