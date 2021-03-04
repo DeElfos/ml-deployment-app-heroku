@@ -250,7 +250,7 @@ print(model.predict([p]))
 app = Flask(__name__)
 # Configure a secret SECRET_KEY
 # We will later learn much better ways to do this!!
-app.config['SECRET_KEY'] = 'someRandomKey'
+#app.config['SECRET_KEY'] = 'someRandomKey'
 
 
 # REMEMBER TO LOAD THE MODEL AND THE SCALER!
