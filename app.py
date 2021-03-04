@@ -14,12 +14,15 @@ import nltk
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
-
-# Tensorflow
 import numpy as np
 import tflearn
-import tensorflow as tf
+#import tensorflow as tf
+from tensorflow.python.framework import ops
 import random
+
+import json
+with open('intents/intents.json') as file:
+    data = json.load(file)
 
 
 
@@ -36,8 +39,10 @@ words = []
 classes = []
 documents = []
 ignore_words = ['?']
+
+
 # loop through each sentence in our intents patterns
-for intent in intents['intents']:
+for intent in data['intents']:
     for pattern in intent['patterns']:
         # tokenize each word in the sentence
         w = nltk.word_tokenize(pattern)
@@ -118,7 +123,10 @@ train_y = list(training[:,1])
 
 
 # reset underlying graph data
-tf.reset_default_graph()
+# tf.reset_default_graph()
+ops.reset_default_graph()
+
+
 # Build neural network
 net = tflearn.input_data(shape=[None, len(train_x[0])])
 net = tflearn.fully_connected(net, 8)
@@ -246,44 +254,19 @@ app.config['SECRET_KEY'] = 'someRandomKey'
 
 
 # REMEMBER TO LOAD THE MODEL AND THE SCALER!
-flower_model = load_model("final_iris_model.h5")
-flower_scaler = joblib.load("iris_scaler.pkl")
+#flower_model = load_model("final_iris_model.h5")
+#flower_scaler = joblib.load("iris_scaler.pkl")
 
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-
-    # Create instance of the form.
-    form = FlowerForm()
-    # If the form is valid on submission (we'll talk about validation next)
-    if form.validate_on_submit():
-        # Grab the data from the breed on the form.
-
-        session['sep_len'] = form.sep_len.data
-        session['sep_wid'] = form.sep_wid.data
-        session['pet_len'] = form.pet_len.data
-        session['pet_wid'] = form.pet_wid.data
-
-        return redirect(url_for("prediction"))
-
-
-    return render_template('home.html', form=form)
+    return 'index page'
 
 
 @app.route('/prediction')
 def prediction():
-
-    content = {}
-
-    content['sepal_length'] = float(session['sep_len'])
-    content['sepal_width'] = float(session['sep_wid'])
-    content['petal_length'] = float(session['pet_len'])
-    content['petal_width'] = float(session['pet_wid'])
-
-    results = return_prediction(model=flower_model,scaler=flower_scaler,sample_json=content)
-
-    return render_template('prediction.html',results=results)
+    return 'prediction page'
 
 
 if __name__ == '__main__':
