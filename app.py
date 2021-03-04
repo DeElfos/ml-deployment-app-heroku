@@ -261,7 +261,24 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return 'index page'
+    data = {
+        "localizedMessage": "No permission for the requested operation. ",
+        "name": "PERMISSION_DENIED",
+        "message": "No permission for the requested operation. ",
+        "details": [
+            {
+                "issue": "No permission for the requested operation. "
+            }
+        ],
+        "information_link": "https://developer.paypal.com/docs/classic/products/permissions/",
+        "debug_id": "6e07326c281c4"
+    }
+    response = app.response_class(
+        response=json.dumps(data),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
 
 
 @app.route('/prediction')
